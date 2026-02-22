@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossy Silver Theme</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      min-height: 100vh;
+      color: #d9d9d9;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      color: #c0c0c0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(255, 255, 255, 0.05);
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #c0c0c0, #f5f5f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px rgba(192, 192, 192, 0.5)); }
+      to { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)); }
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+
+    .navbar ul li {
+      position: relative;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .navbar ul li a,
+    .navbar ul li button {
+      text-decoration: none;
+      color: silver;
+      transition: color 0.3s ease;
+      background: none;
+      border: none;
+      font: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .navbar ul li:hover a,
+    .navbar ul li:hover button {
+      color: #ffffff;
+    }
+
+    .navbar ul li::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(45deg, #808080, #c0c0c0);
+      bottom: -5px;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar ul li:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Search bar */
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      border: 1px solid #555;
+      outline: none;
+      transition: all 0.3s ease;
+      width: 200px;
+      max-width: 100%;
+      background: rgba(30, 30, 30, 0.95);
+      color: #f0f0f0;
+    }
+
+    .search-input:focus {
+      background: rgba(50, 50, 50, 0.95);
+      width: 250px;
+      box-shadow: 0 0 20px rgba(192, 192, 192, 0.2);
+    }
+
+    .search-btn {
+      background: linear-gradient(45deg, #808080, #c0c0c0);
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .search-btn:hover {
+      transform: rotate(90deg);
+    }
+
+    .suggestions {
+      position: absolute;
+      top: 110%;
+      left: 0;
+      width: 100%;
+      background: rgba(20, 20, 20, 0.95);
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+      display: none;
+      flex-direction: column;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .suggestion-item {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      color: #cfcfcf;
+      transition: background 0.2s ease;
+    }
+
+    .suggestion-item:hover {
+      background: linear-gradient(45deg, rgba(128,128,128,0.2), rgba(192,192,192,0.2));
+    }
+
+    /* Welcome section */
+    .welcome-container {
+      text-align: center;
+      margin-top: 5%;
+      animation: fadeIn 1.2s ease-in;
+    }
+
+    .welcome-container h1 {
+      font-size: 3rem;
+      background: linear-gradient(45deg, #c0c0c0, #f5f5f5, #999999);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .welcome-container p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      color: #cccccc;
+    }
+
+    /* Categories */
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      padding: 3rem;
+    }
+
+    .category-card {
+      background: rgba(20, 20, 20, 0.7);
+      border: 1px solid rgba(200, 200, 200, 0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .category-card:hover {
+      transform: translateY(-10px);
+      background: rgba(40, 40, 40, 0.9);
+      box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+    }
+
+    .category-card h3 {
+      margin-bottom: 1rem;
+      color: #f0f0f0;
+    }
+
+    .category-card p {
+      color: #c0c0c0;
+    }
+
+    /* Floating button */
+    .fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: linear-gradient(45deg, #808080, #c0c0c0);
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">MART</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="index.html">Products</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><button onclick="logout()">Logout</button></li>
+    </ul>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search...">
+      <button class="search-btn" aria-label="Search">🔍</button>
+      <div class="suggestions"></div>
+    </div>
+  </nav>
+
+  <div class="welcome-container">
+    <h1>Welcome to MART</h1>
+    <p>Experience the premium black & silver glossy design</p>
+  </div>
+
+  <div class="categories">
+    <div class="category-card">
+      <h3>Mobile Phones</h3>
+      <p>Explore something cool</p>
+    </div>
+    <div class="category-card">
+      <h3>Laptops</h3>
+      <p>Find the latest features</p>
+    </div>
+    <div class="category-card">
+      <h3>Mens Clothes</h3>
+      <p>Discover new trends</p>
+    </div>
+    <div class="category-card">
+      <h3>Gadgets</h3>
+      <p>Connect with people</p>
+    </div>
+  </div>
+
+  <button class="fab" aria-label="Floating Action Button">+</button>
+
+  <script>
+    const searchInput = document.querySelector('.search-input');
+    const suggestionsBox = document.querySelector('.suggestions');
+
+    let products = [];
+
+    async function fetchProducts() {
+      try {
+        const res = await fetch('http://localhost:8080/api/get-products');
+        const data = await res.json();
+        products = data.productList || [];
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    }
+
+    fetchProducts();
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      suggestionsBox.innerHTML = '';
+
+      if (!query) {
+        suggestionsBox.style.display = 'none';
+        return;
+      }
+
+      const filtered = products.filter(prod =>
+        prod.productName.toLowerCase().includes(query)
+      );
+
+      if (filtered.length > 0) {
+        suggestionsBox.style.display = 'flex';
+        filtered.forEach(prod => {
+          const div = document.createElement('div');
+          div.classList.add('suggestion-item');
+          div.textContent = prod.productName;
+          div.addEventListener('click', () => {
+            searchInput.value = prod.productName;
+            suggestionsBox.style.display = 'none';
+          });
+          suggestionsBox.appendChild(div);
+        });
+      } else {
+        const div = document.createElement('div');
+        div.classList.add('suggestion-item');
+        div.textContent = "No results found";
+        div.style.cursor = "default";
+        suggestionsBox.appendChild(div);
+        suggestionsBox.style.display = 'flex';
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-container')) {
+        suggestionsBox.style.display = 'none';
+      }
+    });
+
+    const searchBtn = document.querySelector('.search-btn');
+    searchBtn.addEventListener('click', () => {
+      const query = searchInput.value.trim();
+      if (query) {
+        alert(`Searching for: ${query}`);
+        // Redirect logic can be added here
+      }
+    });
+
+    document.querySelector('.fab').addEventListener('click', () => {
+      alert("FAB clicked!");
+    });
+
+    function logout() {
+      fetch("http://localhost:8080/api/logout", {
+        method: "POST",
+        credentials: "include"
+      }).then(() => window.location.href = "login.html");
+    }
+  </script>
+</body>
+</html>

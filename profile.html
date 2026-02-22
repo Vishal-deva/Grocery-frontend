@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume - Vishal D</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.5in;
+        }
+        
+        body {
+            font-family: Calibri, sans-serif;
+            font-size: 11pt;
+            line-height: 1.3;
+            color: #000;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            background: white;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .header h1 {
+            font-size: 18pt;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+        }
+        
+        .contact {
+            font-size: 10pt;
+            margin: 0;
+        }
+        
+        .section {
+            margin-bottom: 12px;
+        }
+        
+        .section-title {
+            font-size: 11pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            margin-bottom: 6px;
+            padding-bottom: 2px;
+        }
+        
+        .content {
+            margin-left: 0;
+        }
+        
+        .job-title {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        ul {
+            margin: 3px 0 8px 18px;
+            padding: 0;
+        }
+        
+        li {
+            margin-bottom: 2px;
+        }
+        
+        .education-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+        
+        .skills-line {
+            margin-bottom: 4px;
+        }
+        
+        .skills-line strong {
+            font-weight: bold;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+            }
+        }
+        
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: Calibri, sans-serif;
+            font-size: 12pt;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .download-btn:hover {
+            background: #0052a3;
+        }
+        
+        @media print {
+            .download-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="download-btn" onclick="window.print()">Download as PDF</button>
+    
+    <div class="header">
+        <h1>VISHAL D</h1>
+        <p class="contact">Erode, Tamil Nadu | vishaldeva98@gmail.com | 6374199236</p>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">PROFESSIONAL SUMMARY</div>
+        <div class="content">
+            B.Tech IT graduate with expertise in Spring Boot backend development and Playwright automation testing. Proven ability to design scalable RESTful APIs, optimize database performance, and implement comprehensive test automation frameworks. Seeking Backend Developer or QA Automation Engineer role to deliver high-quality software solutions.
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">EDUCATION</div>
+        <div class="content">
+            <div class="education-header">
+                <span><strong>Bachelor of Technology (B.Tech) – Information Technology</strong></span>
+                <span>August 2021 – May 2025</span>
+            </div>
+            <div>Nandha Engineering College, Erode</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">TECHNICAL SKILLS</div>
+        <div class="content">
+            <div class="skills-line"><strong>Programming Languages:</strong> Java, JavaScript, TypeScript</div>
+            <div class="skills-line"><strong>Backend Technologies:</strong> Spring Boot, RESTful API, Spring Data JPA, CRUD Operations, PostgreSQL, Apache POI</div>
+            <div class="skills-line"><strong>Automation Testing:</strong> Playwright, End-to-End Testing, Functional Testing, Regression Testing, Allure Report</div>
+            <div class="skills-line"><strong>Development Tools:</strong> Git, GitHub, IntelliJ IDEA, Visual Studio Code, Postman</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">PROJECT EXPERIENCE</div>
+        <div class="content">
+            <div class="job-title">E-Commerce Web Application – Backend Developer</div>
+            <ul>
+                <li>Engineered RESTful APIs using Spring Boot for 5+ modules including product catalog, shopping cart, and billing system with full CRUD functionality.</li>
+                <li>Integrated PostgreSQL database using Spring Data JPA, optimizing entity relationships and improving query performance by 30%.</li>
+                <li>Developed Excel import/export features using Apache POI to process 1000+ product records for bulk data operations.</li>
+                <li>Architected add-to-cart workflows and implemented complex billing calculation logic within service layers.</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">AUTOMATION TESTING EXPERIENCE</div>
+        <div class="content">
+            <div class="job-title">End-to-End Test Automation with Playwright – QA Automation Engineer</div>
+            <ul>
+                <li>Automated 25+ critical user flows including login authentication and two-factor authentication (2FA) workflows.</li>
+                <li>Created dynamic table automation framework for data validation and extraction, reducing manual testing time by 60%.</li>
+                <li>Designed and executed functional and regression test suites with reusable TypeScript-based test frameworks.</li>
+                <li>Generated comprehensive test execution reports using Allure Report for stakeholder review and defect tracking.</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="section-title">CORE COMPETENCIES</div>
+        <div class="content">
+            API Development | Database Design | Test Automation Frameworks | Excel Data Processing | Agile Methodologies | Problem Solving | Version Control | Code Quality Assurance
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VishalMart - Products</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      min-height: 100vh;
+      color: #d9d9d9;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      color: #c0c0c0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(255, 255, 255, 0.05);
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      cursor: pointer;
+      background: linear-gradient(45deg, #c0c0c0, #f5f5f5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px rgba(192, 192, 192, 0.5)); }
+      to { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)); }
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar ul li {
+      position: relative;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .navbar ul li a,
+    .navbar ul li button {
+      text-decoration: none;
+      color: silver;
+      transition: color 0.3s ease;
+      background: none;
+      border: none;
+      font: inherit;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .navbar ul li:hover a,
+    .navbar ul li:hover button {
+      color: #ffffff;
+    }
+
+    .navbar ul li::before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(45deg, #808080, #c0c0c0);
+      bottom: -5px;
+      left: 0;
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .navbar ul li:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Search bar */
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .search-input {
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      border: 1px solid #555;
+      outline: none;
+      transition: all 0.3s ease;
+      width: 200px;
+      background: rgba(30, 30, 30, 0.95);
+      color: #f0f0f0;
+    }
+
+    .search-input:focus {
+      background: rgba(50, 50, 50, 0.95);
+      width: 250px;
+      box-shadow: 0 0 20px rgba(192, 192, 192, 0.2);
+    }
+
+    .search-btn {
+      background: linear-gradient(45deg, #808080, #c0c0c0);
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .search-btn:hover {
+      transform: rotate(90deg);
+    }
+
+    /* Container */
+    .container {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      animation: fadeIn 1s ease-in;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(200, 200, 200, 0.1);
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      background: linear-gradient(45deg, #c0c0c0, #f5f5f5, #999999);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-count {
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    /* Product list - List view like Flipkart/Amazon */
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .product-card {
+      background: rgba(20, 20, 20, 0.7);
+      border: 1px solid rgba(200, 200, 200, 0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: 200px 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      animation: slideInRight 0.5s ease-out;
+    }
+
+    @keyframes slideInRight {
+      from { 
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      background: rgba(40, 40, 40, 0.9);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+      border-color: rgba(200, 200, 200, 0.3);
+    }
+
+    /* Product Image */
+    .product-image-container {
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(40, 40, 40, 0.5);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .product-card:hover .product-image {
+      transform: scale(1.1);
+    }
+
+    .image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: #666;
+    }
+
+    /* Product Info */
+    .product-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      flex: 1;
+    }
+
+    .product-title {
+      font-size: 1.3rem;
+      color: #f0f0f0;
+      font-weight: 600;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .product-description {
+      color: #999;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-rating {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .stars {
+      color: #ffa500;
+      font-size: 0.9rem;
+    }
+
+    .rating-text {
+      color: #666;
+      font-size: 0.85rem;
+    }
+
+    .product-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .feature-badge {
+      background: rgba(128, 128, 128, 0.2);
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      color: #aaa;
+    }
+
+    /* Product Actions */
+    .product-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1rem;
+      min-width: 200px;
+    }
+
+    .product-price {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.3rem;
+    }
+
+    .price-current {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #f0f0f0;
+    }
+
+    .price-original {
+      font-size: 1rem;
+      color: #666;
+      text-decoration: line-through;
+    }
+
+    .price-discount {
+      color: #4ade80;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .btn {
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    .btn-cart {
+      background: linear-gradient(45deg, #808080, #c0c0c0);
+      color: #000;
+    }
+
+    .btn-cart:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-buy {
+      background: linear-gradient(45deg, #f5f5f5, #ffffff);
+      color: #000;
+    }
+
+    .btn-buy:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4);
+    }
+
+    .stock-status {
+      font-size: 0.85rem;
+      color: #4ade80;
+      font-weight: 600;
+    }
+
+    .out-of-stock {
+      color: #ef4444;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 4rem;
+      color: #999;
+      font-size: 1.2rem;
+    }
+
+    .loading::after {
+      content: '...';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: '.'; }
+      40% { content: '..'; }
+      60%, 100% { content: '...'; }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .product-card {
+        grid-template-columns: 150px 1fr auto;
+        gap: 1.5rem;
+      }
+
+      .product-image-container {
+        width: 150px;
+        height: 150px;
+      }
+
+      .product-actions {
+        min-width: 150px;
+      }
+    }
+
+    
+    /* ============================================
+       RESPONSIVE BREAKPOINTS FOR ALL SCREENS
+       ============================================ */
+
+    /* Extra Small Devices (Portrait Phones, less than 576px) */
+    @media (max-width: 575.98px) {
+      body {
+        padding: 0.5rem;
+      }
+
+      .login-container {
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+        max-width: 100%;
+      }
+
+      .brand h2 {
+        font-size: 1.6rem;
+      }
+
+      .brand-icon {
+        font-size: 3rem;
+      }
+
+      .brand p {
+        font-size: 0.85rem;
+      }
+
+      .form-input {
+        padding: 0.9rem 0.9rem 0.9rem 3rem;
+        font-size: 0.95rem;
+      }
+
+      .input-icon {
+        font-size: 1.1rem;
+        left: 1rem;
+      }
+
+      .password-toggle {
+        font-size: 1.1rem;
+        right: 1rem;
+      }
+
+      .login-button {
+        padding: 0.9rem;
+        font-size: 1rem;
+      }
+
+      .form-footer a {
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Small Devices (Landscape Phones, 576px to 767px) */
+    @media (min-width: 576px) and (max-width: 767.98px) {
+      .login-container {
+        padding: 2.5rem 2rem;
+        max-width: 480px;
+      }
+
+      .brand h2 {
+        font-size: 1.8rem;
+      }
+
+      .brand-icon {
+        font-size: 3.5rem;
+      }
+    }
+
+    /* Medium Devices (Tablets, 768px to 991px) */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+      .login-container {
+        padding: 3rem 2.5rem;
+        max-width: 500px;
+      }
+
+      .brand h2 {
+        font-size: 2rem;
+      }
+
+      .brand-icon {
+        font-size: 4rem;
+      }
+    }
+
+    /* Large Devices (Desktops, 992px to 1199px) */
+    @media (min-width: 992px) and (max-width: 1199.98px) {
+      .login-container {
+        max-width: 480px;
+      }
+    }
+
+    /* Extra Large Devices (Large Desktops, 1200px to 1399px) */
+    @media (min-width: 1200px) and (max-width: 1399.98px) {
+      .login-container {
+        max-width: 500px;
+      }
+
+      .brand h2 {
+        font-size: 2.2rem;
+      }
+
+      .brand-icon {
+        font-size: 4.5rem;
+      }
+    }
+
+    /* Extra Extra Large Devices (Larger Desktops, 1400px and up) */
+    @media (min-width: 1400px) {
+      .login-container {
+        max-width: 550px;
+        padding: 3.5rem 3rem;
+      }
+
+      .brand h2 {
+        font-size: 2.5rem;
+      }
+
+      .brand-icon {
+        font-size: 5rem;
+      }
+
+      .form-input {
+        padding: 1.1rem 1.1rem 1.1rem 3.8rem;
+        font-size: 1.05rem;
+      }
+
+      .login-button {
+        padding: 1.2rem;
+        font-size: 1.15rem;
+      }
+    }
+
+    /* Landscape Orientation Adjustments */
+    @media (max-height: 600px) and (orientation: landscape) {
+      body {
+        padding: 0.5rem;
+        align-items: flex-start;
+        overflow-y: auto;
+      }
+
+      .login-container {
+        margin: 1rem auto;
+        padding: 1.5rem;
+      }
+
+      .brand {
+        margin-bottom: 1.5rem;
+      }
+
+      .brand-icon {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .brand h2 {
+        font-size: 1.5rem;
+      }
+
+      .login-form {
+        gap: 1rem;
+      }
+
+      .form-footer {
+        margin-top: 1rem;
+      }
+    }
+
+    /* Very Small Screens (like iPhone SE, 320px) */
+    @media (max-width: 374.98px) {
+      .login-container {
+        padding: 1.5rem 1rem;
+      }
+
+      .brand h2 {
+        font-size: 1.4rem;
+      }
+
+      .brand-icon {
+        font-size: 2.5rem;
+      }
+
+      .form-input {
+        padding: 0.8rem 0.8rem 0.8rem 2.8rem;
+        font-size: 0.9rem;
+      }
+
+      .input-icon {
+        font-size: 1rem;
+        left: 0.8rem;
+      }
+      .quantity-selector {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .quantity-selector button {
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 5px;
+      background: #555;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .quantity-selector span {
+      min-width: 25px;
+      text-align: center;
+      color: #fff;
+      font-weight: bold;
+    }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MART</div>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="index.html">Products</a></li>
+      <li><a href="cart.html">Cart</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><button onclick="logout()">Logout</button></li>
+    </ul>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search products..." id="searchInput">
+      <button class="search-btn">🔍</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>All Products</h1>
+      <p class="product-count" id="productCount">Loading products...</p>
+    </div>
+    <div id="product-list" class="product-list">
+      <div class="loading">Loading products</div>
+    </div>
+  </div>
+
+  <script>
+    const productImages = {
+      'laptop': 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400',
+      'phone': 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400',
+      'headphone': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400',
+      'watch': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
+      'camera': 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400',
+      'tablet': 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400',
+      'keyboard': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400',
+      'mouse': 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400',
+      'speaker': 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400',
+      'default': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400'
+    };
+
+    function getProductImage(productName) {
+      const name = productName.toLowerCase();
+      for (let key in productImages) {
+        if (name.includes(key)) return productImages[key];
+      }
+      return productImages['default'];
+    }
+
+    function generateRating() {
+      return (Math.random() * 2 + 3).toFixed(1);
+    }
+
+    function calculateDiscount(price) {
+      const discount = Math.floor(Math.random() * 30) + 10;
+      const original = Math.round(price / (1 - discount / 100));
+      return { original, discount };
+    }
+
+    async function loadProducts() {
+      try {
+        const res = await fetch('http://localhost:8080/api/get-Allproducts', { credentials: 'include' });
+        const data = await res.json();
+        const products = data.productList || [];
+        const container = document.getElementById('product-list');
+        const countElement = document.getElementById('productCount');
+        
+        container.innerHTML = '';
+        countElement.textContent = `${products.length} products found`;
+
+        if (products.length === 0) {
+          container.innerHTML = '<div class="loading">No products available</div>';
+          return;
+        }
+
+        products.forEach((prod, index) => {
+          const card = document.createElement('div');
+          card.className = 'product-card';
+          card.style.animationDelay = `${index * 0.1}s`;
+
+          const pricing = calculateDiscount(prod.price);
+          const rating = generateRating();
+          const imageUrl = getProductImage(prod.productName);
+
+          card.innerHTML = `
+            <div class="product-image-container">
+              <img src="${imageUrl}" alt="${prod.productName}" class="product-image" 
+                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="image-placeholder" style="display:none;">📦</div>
+            </div>
+            
+            <div class="product-info">
+              <h3 class="product-title">${prod.productName}</h3>
+              <p class="product-description">${prod.productDescription || 'High-quality product with excellent features.'}</p>
+              
+              <div class="product-rating">
+                <span class="stars">${'★'.repeat(Math.floor(rating))}${'☆'.repeat(5 - Math.floor(rating))}</span>
+                <span class="rating-text">${rating} (${Math.floor(Math.random() * 1000) + 100} reviews)</span>
+              </div>
+              
+              <div class="product-features">
+                <span class="feature-badge">✓ Fast Delivery</span>
+                <span class="feature-badge">✓ Warranty</span>
+                <span class="feature-badge">✓ Easy Returns</span>
+              </div>
+            </div>
+            
+            <div class="product-actions">
+              <div class="product-price">
+                <div class="price-current">₹${prod.price.toLocaleString('en-IN')}</div>
+                <div class="price-original">₹${pricing.original.toLocaleString('en-IN')}</div>
+                <div class="price-discount">${pricing.discount}% off</div>
+              </div>
+              
+              <div class="stock-status">In Stock</div>
+
+              <div class="quantity-selector">
+                <button onclick="decreaseQty(this)">-</button>
+                <span>1</span>
+                <button onclick="increaseQty(this)">+</button>
+              </div>
+
+              <div class="action-buttons">
+                <button class="btn btn-cart" onclick="addToCart(${JSON.stringify(prod).replace(/"/g, '&quot;')}, this)">
+                  🛒 Add to Cart
+                </button>
+                <button class="btn btn-buy" onclick="buyNow(${JSON.stringify(prod).replace(/"/g, '&quot;')})">
+                  ⚡ Buy Now
+                </button>
+              </div>
+            </div>
+          `;
+
+          container.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Failed to load products:', error);
+        document.getElementById('product-list').innerHTML = 
+          '<div class="loading">Failed to load products. Please try again later.</div>';
+      }
+    }
+
+    function increaseQty(btn) {
+      const span = btn.previousElementSibling;
+      let val = parseInt(span.textContent);
+      span.textContent = val + 1;
+    }
+
+    function decreaseQty(btn) {
+      const span = btn.nextElementSibling;
+      let val = parseInt(span.textContent);
+      if (val > 1) span.textContent = val - 1;
+    }
+
+   function addToCart(prod, btn) {
+  const quantity = parseInt(btn.closest('.product-actions').querySelector('.quantity-selector span').textContent);
+  const customerId = sessionStorage.getItem('customerId'); // or session
+
+  const payload = {
+    ...prod,
+    quantity: quantity,
+    customerId: customerId
+  };
+
+  fetch('http://localhost:8080/api/add-item', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(payload) // send the correct payload
+  })
+  .then(res => {
+    if (res.ok) {
+      btn.textContent = '✓ Added!';
+      btn.style.background = 'linear-gradient(45deg, #4ade80, #22c55e)';
+      setTimeout(() => {
+        btn.textContent = '🛒 Add to Cart';
+        btn.style.background = 'linear-gradient(45deg, #808080, #c0c0c0)';
+      }, 2000);
+    } else {
+      alert('Failed to add to cart.');
+    }
+  })
+  .catch(err => console.error(err));
+}
+
+
+    function buyNow(prod) {
+      alert(`Proceeding to buy: ${prod.productName}\nPrice: ₹${prod.price}`);
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const productCards = document.querySelectorAll('.product-card');
+      productCards.forEach(card => {
+        const title = card.querySelector('.product-title').textContent.toLowerCase();
+        const desc = card.querySelector('.product-description').textContent.toLowerCase();
+        card.style.display = title.includes(searchTerm) || desc.includes(searchTerm) ? 'grid' : 'none';
+      });
+    });
+
+    function logout() {
+      fetch("http://localhost:8080/api/logout", { method: "POST", credentials: "include" })
+        .then(() => window.location.href = "login.html");
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>

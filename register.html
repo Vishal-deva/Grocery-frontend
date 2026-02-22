@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>VishalMart - Register</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Register</h1>
+    <form id="registerForm" onsubmit="registerCustomer(event)">
+      <input type="text" id="customerName" placeholder="Full Name" required />
+      <input type="email" id="customerEmailId" placeholder="Email" required />
+      <input type="text" id="customerMobileNumber" placeholder="Mobile Number" required />
+      <textarea id="customerAddress" placeholder="Address" required></textarea>
+      <input type="text" id="customerPinCode" placeholder="Pin Code" required />
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</body>
+</html>
