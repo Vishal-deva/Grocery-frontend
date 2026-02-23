@@ -298,14 +298,15 @@
   <button class="fab" aria-label="Floating Action Button">+</button>
 
   <script>
+    const backendURL = "https://my-mart-backend.onrender.com";
+
     const searchInput = document.querySelector('.search-input');
     const suggestionsBox = document.querySelector('.suggestions');
-
     let products = [];
 
     async function fetchProducts() {
       try {
-        const res = await fetch('http://localhost:8080/api/get-products');
+        const res = await fetch(`${backendURL}/api/get-products`);
         const data = await res.json();
         products = data.productList || [];
       } catch (error) {
@@ -370,10 +371,11 @@
     });
 
     function logout() {
-      fetch("http://localhost:8080/api/logout", {
+      fetch(`${backendURL}/api/logout`, {
         method: "POST",
         credentials: "include"
-      }).then(() => window.location.href = "login.html");
+      }).then(() => window.location.href = "login.html")
+        .catch(err => console.error(err));
     }
   </script>
 </body>

@@ -1,218 +1,98 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyShop | Checkout</title>
   <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
   <style>
-    
     /* ============================================
        RESPONSIVE BREAKPOINTS FOR ALL SCREENS
        ============================================ */
 
     /* Extra Small Devices (Portrait Phones, less than 576px) */
     @media (max-width: 575.98px) {
-      body {
-        padding: 0.5rem;
-      }
-
-      .login-container {
-        padding: 2rem 1.5rem;
-        border-radius: 20px;
-        max-width: 100%;
-      }
-
-      .brand h2 {
-        font-size: 1.6rem;
-      }
-
-      .brand-icon {
-        font-size: 3rem;
-      }
-
-      .brand p {
-        font-size: 0.85rem;
-      }
-
-      .form-input {
-        padding: 0.9rem 0.9rem 0.9rem 3rem;
-        font-size: 0.95rem;
-      }
-
-      .input-icon {
-        font-size: 1.1rem;
-        left: 1rem;
-      }
-
-      .password-toggle {
-        font-size: 1.1rem;
-        right: 1rem;
-      }
-
-      .login-button {
-        padding: 0.9rem;
-        font-size: 1rem;
-      }
-
-      .form-footer a {
-        font-size: 0.85rem;
-      }
+      body { padding: 0.5rem; }
+      .login-container { padding: 2rem 1.5rem; border-radius: 20px; max-width: 100%; }
+      .brand h2 { font-size: 1.6rem; }
+      .brand-icon { font-size: 3rem; }
+      .brand p { font-size: 0.85rem; }
+      .form-input { padding: 0.9rem 0.9rem 0.9rem 3rem; font-size: 0.95rem; }
+      .input-icon { font-size: 1.1rem; left: 1rem; }
+      .password-toggle { font-size: 1.1rem; right: 1rem; }
+      .login-button { padding: 0.9rem; font-size: 1rem; }
+      .form-footer a { font-size: 0.85rem; }
     }
 
     /* Small Devices (Landscape Phones, 576px to 767px) */
     @media (min-width: 576px) and (max-width: 767.98px) {
-      .login-container {
-        padding: 2.5rem 2rem;
-        max-width: 480px;
-      }
-
-      .brand h2 {
-        font-size: 1.8rem;
-      }
-
-      .brand-icon {
-        font-size: 3.5rem;
-      }
+      .login-container { padding: 2.5rem 2rem; max-width: 480px; }
+      .brand h2 { font-size: 1.8rem; }
+      .brand-icon { font-size: 3.5rem; }
     }
 
     /* Medium Devices (Tablets, 768px to 991px) */
     @media (min-width: 768px) and (max-width: 991.98px) {
-      .login-container {
-        padding: 3rem 2.5rem;
-        max-width: 500px;
-      }
-
-      .brand h2 {
-        font-size: 2rem;
-      }
-
-      .brand-icon {
-        font-size: 4rem;
-      }
+      .login-container { padding: 3rem 2.5rem; max-width: 500px; }
+      .brand h2 { font-size: 2rem; }
+      .brand-icon { font-size: 4rem; }
     }
 
     /* Large Devices (Desktops, 992px to 1199px) */
     @media (min-width: 992px) and (max-width: 1199.98px) {
-      .login-container {
-        max-width: 480px;
-      }
+      .login-container { max-width: 480px; }
     }
 
-    /* Extra Large Devices (Large Desktops, 1200px to 1399px) */
+    /* Extra Large Devices (1200px to 1399px) */
     @media (min-width: 1200px) and (max-width: 1399.98px) {
-      .login-container {
-        max-width: 500px;
-      }
-
-      .brand h2 {
-        font-size: 2.2rem;
-      }
-
-      .brand-icon {
-        font-size: 4.5rem;
-      }
+      .login-container { max-width: 500px; }
+      .brand h2 { font-size: 2.2rem; }
+      .brand-icon { font-size: 4.5rem; }
     }
 
-    /* Extra Extra Large Devices (Larger Desktops, 1400px and up) */
+    /* Extra Extra Large Devices (1400px and up) */
     @media (min-width: 1400px) {
-      .login-container {
-        max-width: 550px;
-        padding: 3.5rem 3rem;
-      }
-
-      .brand h2 {
-        font-size: 2.5rem;
-      }
-
-      .brand-icon {
-        font-size: 5rem;
-      }
-
-      .form-input {
-        padding: 1.1rem 1.1rem 1.1rem 3.8rem;
-        font-size: 1.05rem;
-      }
-
-      .login-button {
-        padding: 1.2rem;
-        font-size: 1.15rem;
-      }
+      .login-container { max-width: 550px; padding: 3.5rem 3rem; }
+      .brand h2 { font-size: 2.5rem; }
+      .brand-icon { font-size: 5rem; }
+      .form-input { padding: 1.1rem 1.1rem 1.1rem 3.8rem; font-size: 1.05rem; }
+      .login-button { padding: 1.2rem; font-size: 1.15rem; }
     }
 
     /* Landscape Orientation Adjustments */
     @media (max-height: 600px) and (orientation: landscape) {
-      body {
-        padding: 0.5rem;
-        align-items: flex-start;
-        overflow-y: auto;
-      }
-
-      .login-container {
-        margin: 1rem auto;
-        padding: 1.5rem;
-      }
-
-      .brand {
-        margin-bottom: 1.5rem;
-      }
-
-      .brand-icon {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .brand h2 {
-        font-size: 1.5rem;
-      }
-
-      .login-form {
-        gap: 1rem;
-      }
-
-      .form-footer {
-        margin-top: 1rem;
-      }
+      body { padding: 0.5rem; align-items: flex-start; overflow-y: auto; }
+      .login-container { margin: 1rem auto; padding: 1.5rem; }
+      .brand { margin-bottom: 1.5rem; }
+      .brand-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+      .brand h2 { font-size: 1.5rem; }
+      .login-form { gap: 1rem; }
+      .form-footer { margin-top: 1rem; }
     }
 
     /* Very Small Screens (like iPhone SE, 320px) */
     @media (max-width: 374.98px) {
-      .login-container {
-        padding: 1.5rem 1rem;
-      }
-
-      .brand h2 {
-        font-size: 1.4rem;
-      }
-
-      .brand-icon {
-        font-size: 2.5rem;
-      }
-
-      .form-input {
-        padding: 0.8rem 0.8rem 0.8rem 2.8rem;
-        font-size: 0.9rem;
-      }
-
-      .input-icon {
-        font-size: 1rem;
-        left: 0.8rem;
-      }
+      .login-container { padding: 1.5rem 1rem; }
+      .brand h2 { font-size: 1.4rem; }
+      .brand-icon { font-size: 2.5rem; }
+      .form-input { padding: 0.8rem 0.8rem 0.8rem 2.8rem; font-size: 0.9rem; }
+      .input-icon { font-size: 1rem; left: 0.8rem; }
     }
   </style>
+</head>
+<body>
   <div class="form-container">
     <h2>Checkout</h2>
-     <nav class="navbar">
-    <div class="logo">VishalMart</div>
-    <ul>
-      <li><a href="home.html">Home</a></li>
-      <li><a href="index.html">Products</a></li>
-      <li><a href="cart.html">Cart</a></li>
-      <li><a href="profile.html">Profile</a></li>
-       <li><button onclick="logout()">Logout</button></li>
-      <li>Profile</li>
-    </ul>
-  </nav>
+    <nav class="navbar">
+      <div class="logo">VishalMart</div>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="index.html">Products</a></li>
+        <li><a href="cart.html">Cart</a></li>
+        <li><a href="profile.html">Profile</a></li>
+        <li><button onclick="logout()">Logout</button></li>
+      </ul>
+    </nav>
 
     <form id="checkoutForm">
       <input type="text" id="customerId" placeholder="Customer ID" required />
@@ -221,6 +101,8 @@
   </div>
 
   <script>
+    const backendURL = "https://my-mart-backend.onrender.com";
+
     document.getElementById("checkoutForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -238,25 +120,31 @@
         })),
       };
 
-      const res = await fetch("http://localhost:8080/api/add-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      try {
+        const res = await fetch(`${backendURL}/api/add-order`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          credentials: "include"
+        });
 
-      const data = await res.json();
-      alert(data.message || "Order placed!");
-      localStorage.removeItem("cart");
-      window.location.href = "index.html";
+        const data = await res.json();
+        alert(data.message || "Order placed!");
+        localStorage.removeItem("cart");
+        window.location.href = "index.html";
+      } catch (err) {
+        console.error(err);
+        alert("Failed to place order. Try again!");
+      }
     });
 
-
     function logout() {
-  fetch("http://localhost:8080/api/logout", {
-    method: "POST",
-    credentials: "include"
-  }).then(() => window.location.href = "login.html");
-}
+      fetch(`${backendURL}/api/logout`, {
+        method: "POST",
+        credentials: "include"
+      }).then(() => window.location.href = "login.html")
+        .catch(err => console.error(err));
+    }
   </script>
 </body>
 </html>

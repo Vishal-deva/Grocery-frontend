@@ -642,6 +642,8 @@
 </div>
 
 <script>
+const BACKEND_URL = "https://grocery-1-hsz1.onrender.com"; // <-- Replace with your backend URL
+
 function createParticles() {
   const container = document.getElementById('particles');
   const particleCount = window.innerWidth < 768 ? 15 : 30;
@@ -685,11 +687,11 @@ async function login() {
 
   try {
     // 1️⃣ Login API call
-    const response = await fetch("http://localhost:8080/api/login-customer", {
+    const response = await fetch(`${BACKEND_URL}/api/login-customer`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ customerEmailId: email, customerPassword: password }),
-      credentials: "include" // important for session cookies
+      credentials: "include"
     });
 
     const data = await response.json();
@@ -701,14 +703,14 @@ async function login() {
       successDiv.classList.add('show');
 
       // 2️⃣ Fetch current customer from session
-      const userResponse = await fetch("http://localhost:8080/api/current-customer", {
+      const userResponse = await fetch(`${BACKEND_URL}/api/current-customer`, {
         method: "GET",
         credentials: "include"
       });
 
       if (userResponse.ok) {
         const userData = await userResponse.json();
-        sessionStorage.setItem('customerId', userData.customerId); // ✅ now we have customerId
+        sessionStorage.setItem('customerId', userData.customerId); 
         console.log("Logged in user:", userData);
 
         successDiv.textContent = "✓ Login successful! Redirecting...";

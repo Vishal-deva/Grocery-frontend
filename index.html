@@ -674,185 +674,186 @@
   </div>
 
   <script>
-    const productImages = {
-      'laptop': 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400',
-      'phone': 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400',
-      'headphone': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400',
-      'watch': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
-      'camera': 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400',
-      'tablet': 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400',
-      'keyboard': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400',
-      'mouse': 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400',
-      'speaker': 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400',
-      'default': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400'
-    };
+  const BACKEND_URL = "https://grocery-1-hsz1.onrender.com"; // <-- Replace this with your actual backend URL
 
-    function getProductImage(productName) {
-      const name = productName.toLowerCase();
-      for (let key in productImages) {
-        if (name.includes(key)) return productImages[key];
-      }
-      return productImages['default'];
-    }
-
-    function generateRating() {
-      return (Math.random() * 2 + 3).toFixed(1);
-    }
-
-    function calculateDiscount(price) {
-      const discount = Math.floor(Math.random() * 30) + 10;
-      const original = Math.round(price / (1 - discount / 100));
-      return { original, discount };
-    }
-
-    async function loadProducts() {
-      try {
-        const res = await fetch('http://localhost:8080/api/get-Allproducts', { credentials: 'include' });
-        const data = await res.json();
-        const products = data.productList || [];
-        const container = document.getElementById('product-list');
-        const countElement = document.getElementById('productCount');
-        
-        container.innerHTML = '';
-        countElement.textContent = `${products.length} products found`;
-
-        if (products.length === 0) {
-          container.innerHTML = '<div class="loading">No products available</div>';
-          return;
-        }
-
-        products.forEach((prod, index) => {
-          const card = document.createElement('div');
-          card.className = 'product-card';
-          card.style.animationDelay = `${index * 0.1}s`;
-
-          const pricing = calculateDiscount(prod.price);
-          const rating = generateRating();
-          const imageUrl = getProductImage(prod.productName);
-
-          card.innerHTML = `
-            <div class="product-image-container">
-              <img src="${imageUrl}" alt="${prod.productName}" class="product-image" 
-                   onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-              <div class="image-placeholder" style="display:none;">📦</div>
-            </div>
-            
-            <div class="product-info">
-              <h3 class="product-title">${prod.productName}</h3>
-              <p class="product-description">${prod.productDescription || 'High-quality product with excellent features.'}</p>
-              
-              <div class="product-rating">
-                <span class="stars">${'★'.repeat(Math.floor(rating))}${'☆'.repeat(5 - Math.floor(rating))}</span>
-                <span class="rating-text">${rating} (${Math.floor(Math.random() * 1000) + 100} reviews)</span>
-              </div>
-              
-              <div class="product-features">
-                <span class="feature-badge">✓ Fast Delivery</span>
-                <span class="feature-badge">✓ Warranty</span>
-                <span class="feature-badge">✓ Easy Returns</span>
-              </div>
-            </div>
-            
-            <div class="product-actions">
-              <div class="product-price">
-                <div class="price-current">₹${prod.price.toLocaleString('en-IN')}</div>
-                <div class="price-original">₹${pricing.original.toLocaleString('en-IN')}</div>
-                <div class="price-discount">${pricing.discount}% off</div>
-              </div>
-              
-              <div class="stock-status">In Stock</div>
-
-              <div class="quantity-selector">
-                <button onclick="decreaseQty(this)">-</button>
-                <span>1</span>
-                <button onclick="increaseQty(this)">+</button>
-              </div>
-
-              <div class="action-buttons">
-                <button class="btn btn-cart" onclick="addToCart(${JSON.stringify(prod).replace(/"/g, '&quot;')}, this)">
-                  🛒 Add to Cart
-                </button>
-                <button class="btn btn-buy" onclick="buyNow(${JSON.stringify(prod).replace(/"/g, '&quot;')})">
-                  ⚡ Buy Now
-                </button>
-              </div>
-            </div>
-          `;
-
-          container.appendChild(card);
-        });
-      } catch (error) {
-        console.error('Failed to load products:', error);
-        document.getElementById('product-list').innerHTML = 
-          '<div class="loading">Failed to load products. Please try again later.</div>';
-      }
-    }
-
-    function increaseQty(btn) {
-      const span = btn.previousElementSibling;
-      let val = parseInt(span.textContent);
-      span.textContent = val + 1;
-    }
-
-    function decreaseQty(btn) {
-      const span = btn.nextElementSibling;
-      let val = parseInt(span.textContent);
-      if (val > 1) span.textContent = val - 1;
-    }
-
-   function addToCart(prod, btn) {
-  const quantity = parseInt(btn.closest('.product-actions').querySelector('.quantity-selector span').textContent);
-  const customerId = sessionStorage.getItem('customerId'); // or session
-
-  const payload = {
-    ...prod,
-    quantity: quantity,
-    customerId: customerId
+  const productImages = {
+    'laptop': 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400',
+    'phone': 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400',
+    'headphone': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400',
+    'watch': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
+    'camera': 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400',
+    'tablet': 'https://images.unsplash.com/photo-1561154464-82e9adf32764?w=400',
+    'keyboard': 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400',
+    'mouse': 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400',
+    'speaker': 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400',
+    'default': 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400'
   };
 
-  fetch('http://localhost:8080/api/add-item', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(payload) // send the correct payload
-  })
-  .then(res => {
-    if (res.ok) {
-      btn.textContent = '✓ Added!';
-      btn.style.background = 'linear-gradient(45deg, #4ade80, #22c55e)';
-      setTimeout(() => {
-        btn.textContent = '🛒 Add to Cart';
-        btn.style.background = 'linear-gradient(45deg, #808080, #c0c0c0)';
-      }, 2000);
-    } else {
-      alert('Failed to add to cart.');
+  function getProductImage(productName) {
+    const name = productName.toLowerCase();
+    for (let key in productImages) {
+      if (name.includes(key)) return productImages[key];
     }
-  })
-  .catch(err => console.error(err));
-}
+    return productImages['default'];
+  }
 
+  function generateRating() {
+    return (Math.random() * 2 + 3).toFixed(1);
+  }
 
-    function buyNow(prod) {
-      alert(`Proceeding to buy: ${prod.productName}\nPrice: ₹${prod.price}`);
-    }
+  function calculateDiscount(price) {
+    const discount = Math.floor(Math.random() * 30) + 10;
+    const original = Math.round(price / (1 - discount / 100));
+    return { original, discount };
+  }
 
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      const productCards = document.querySelectorAll('.product-card');
-      productCards.forEach(card => {
-        const title = card.querySelector('.product-title').textContent.toLowerCase();
-        const desc = card.querySelector('.product-description').textContent.toLowerCase();
-        card.style.display = title.includes(searchTerm) || desc.includes(searchTerm) ? 'grid' : 'none';
+  async function loadProducts() {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/get-Allproducts`, { credentials: 'include' });
+      const data = await res.json();
+      const products = data.productList || [];
+      const container = document.getElementById('product-list');
+      const countElement = document.getElementById('productCount');
+      
+      container.innerHTML = '';
+      countElement.textContent = `${products.length} products found`;
+
+      if (products.length === 0) {
+        container.innerHTML = '<div class="loading">No products available</div>';
+        return;
+      }
+
+      products.forEach((prod, index) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.style.animationDelay = `${index * 0.1}s`;
+
+        const pricing = calculateDiscount(prod.price);
+        const rating = generateRating();
+        const imageUrl = getProductImage(prod.productName);
+
+        card.innerHTML = `
+          <div class="product-image-container">
+            <img src="${imageUrl}" alt="${prod.productName}" class="product-image" 
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="image-placeholder" style="display:none;">📦</div>
+          </div>
+          
+          <div class="product-info">
+            <h3 class="product-title">${prod.productName}</h3>
+            <p class="product-description">${prod.productDescription || 'High-quality product with excellent features.'}</p>
+            
+            <div class="product-rating">
+              <span class="stars">${'★'.repeat(Math.floor(rating))}${'☆'.repeat(5 - Math.floor(rating))}</span>
+              <span class="rating-text">${rating} (${Math.floor(Math.random() * 1000) + 100} reviews)</span>
+            </div>
+            
+            <div class="product-features">
+              <span class="feature-badge">✓ Fast Delivery</span>
+              <span class="feature-badge">✓ Warranty</span>
+              <span class="feature-badge">✓ Easy Returns</span>
+            </div>
+          </div>
+          
+          <div class="product-actions">
+            <div class="product-price">
+              <div class="price-current">₹${prod.price.toLocaleString('en-IN')}</div>
+              <div class="price-original">₹${pricing.original.toLocaleString('en-IN')}</div>
+              <div class="price-discount">${pricing.discount}% off</div>
+            </div>
+            
+            <div class="stock-status">In Stock</div>
+
+            <div class="quantity-selector">
+              <button onclick="decreaseQty(this)">-</button>
+              <span>1</span>
+              <button onclick="increaseQty(this)">+</button>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn btn-cart" onclick="addToCart(${JSON.stringify(prod).replace(/"/g, '&quot;')}, this)">
+                🛒 Add to Cart
+              </button>
+              <button class="btn btn-buy" onclick="buyNow(${JSON.stringify(prod).replace(/"/g, '&quot;')})">
+                ⚡ Buy Now
+              </button>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
       });
-    });
-
-    function logout() {
-      fetch("http://localhost:8080/api/logout", { method: "POST", credentials: "include" })
-        .then(() => window.location.href = "login.html");
+    } catch (error) {
+      console.error('Failed to load products:', error);
+      document.getElementById('product-list').innerHTML = 
+        '<div class="loading">Failed to load products. Please try again later.</div>';
     }
+  }
 
-    loadProducts();
-  </script>
+  function increaseQty(btn) {
+    const span = btn.previousElementSibling;
+    let val = parseInt(span.textContent);
+    span.textContent = val + 1;
+  }
+
+  function decreaseQty(btn) {
+    const span = btn.nextElementSibling;
+    let val = parseInt(span.textContent);
+    if (val > 1) span.textContent = val - 1;
+  }
+
+  function addToCart(prod, btn) {
+    const quantity = parseInt(btn.closest('.product-actions').querySelector('.quantity-selector span').textContent);
+    const customerId = sessionStorage.getItem('customerId');
+
+    const payload = {
+      ...prod,
+      quantity: quantity,
+      customerId: customerId
+    };
+
+    fetch(`${BACKEND_URL}/api/add-item`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(payload)
+    })
+    .then(res => {
+      if (res.ok) {
+        btn.textContent = '✓ Added!';
+        btn.style.background = 'linear-gradient(45deg, #4ade80, #22c55e)';
+        setTimeout(() => {
+          btn.textContent = '🛒 Add to Cart';
+          btn.style.background = 'linear-gradient(45deg, #808080, #c0c0c0)';
+        }, 2000);
+      } else {
+        alert('Failed to add to cart.');
+      }
+    })
+    .catch(err => console.error(err));
+  }
+
+  function buyNow(prod) {
+    alert(`Proceeding to buy: ${prod.productName}\nPrice: ₹${prod.price}`);
+  }
+
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    const productCards = document.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+      const title = card.querySelector('.product-title').textContent.toLowerCase();
+      const desc = card.querySelector('.product-description').textContent.toLowerCase();
+      card.style.display = title.includes(searchTerm) || desc.includes(searchTerm) ? 'grid' : 'none';
+    });
+  });
+
+  function logout() {
+    fetch(`${BACKEND_URL}/api/logout`, { method: "POST", credentials: "include" })
+      .then(() => window.location.href = "login.html");
+  }
+
+  loadProducts();
+</script>
 </body>
 </html>
