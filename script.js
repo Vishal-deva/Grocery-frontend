@@ -1,4 +1,4 @@
-const API_BASE = "https://grocery-1-hsz1.onrender.com";
+const API_BASE = "https://grocery-1-hsz1.onrender.com";  
 // Cart in localStorage
 function getCart() {
   return JSON.parse(localStorage.getItem("cart")) || [];

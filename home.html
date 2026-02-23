@@ -304,15 +304,17 @@
     const suggestionsBox = document.querySelector('.suggestions');
     let products = [];
 
-    async function fetchProducts() {
-      try {
-        const res = await fetch(`${backendURL}/api/get-products`);
-        const data = await res.json();
-        products = data.productList || [];
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      }
-    }
+    async function fetchProducts(productName) {
+  try {
+    const res = await fetch(`https://my-mart-backend.onrender.com/api/get-products?productName=${encodeURIComponent(productName)}`);
+    if (!res.ok) throw new Error("Failed to fetch products");
+    const data = await res.json();
+    console.log("Products:", data);
+    // TODO: render products in UI
+  } catch (err) {
+    console.error("Failed to fetch products:", err);
+  }
+}
 
     fetchProducts();
 
